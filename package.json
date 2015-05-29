@@ -1,0 +1,23 @@
+{
+  "name": "atel-custom-post",
+  "version": "1.0.0",
+  "description": "Simple Wordpress plugin for the custom Atel (YouListen Media) post type.",
+  "main": "atel_custom_post.php",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MagneticMule/atel-custom-post.git"
+  },
+  "keywords": [
+    "wordpress",
+    "plugin"
+  ],
+  "author": "Thomas Sweeney",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/MagneticMule/atel-custom-post/issues"
+  },
+  "homepage": "https://github.com/MagneticMule/atel-custom-post#readme"
+}
