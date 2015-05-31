@@ -26,7 +26,7 @@
         Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     */
 
-    // don't call this file directly
+    // This file is part of a Wordpress plugin so don't call it directly
     defined('ABSPATH') or die('This plugin cannot be acessed directly');
     require_once plugin_dir_path(__FILE__).'includes/atel_post_manager.php';
 

@@ -11,10 +11,6 @@ class Atel_Post_Manager
      */
     private $labels;
 
-    /**
-     * @var array
-     */
-    private $attributes;
 
     /**
      * Tag identifier used by file includes and selector attributes.
@@ -76,9 +72,9 @@ class Atel_Post_Manager
                 'rewrite' => array(
                     'slug' => 'classes',
                     'with_front' => true,
-                ),
-            )
-        );
+                    ),
+                )
+            );
     }
 
      /**
@@ -87,42 +83,75 @@ class Atel_Post_Manager
       **/
      public function buildCustomPost()
      {
-         $labels = array(
-            'name' => ('Activities'),
-            'singular_name' => ('Activity'),
-            'add_new' => ('Add New'),
-            'add_new_item' => ('Add New Activity'),
-            'edit_item' => ('Edit Activities'),
-            'new_item' => ('New Activity'),
-            'view_item' => ('View Activity'),
-            'not_found' => ('No Activities found'),
-            'not_found_in_trash' => ('No Activities found in Trash'),
-            'parent_item_colon' => ('Parent Activity:'),
-            'menu_name' => ('Activities'),
-            );
+       $this->labels = array(
+        'name' => ('Activities'),
+        'singular_name' => ('Activity'),
+        'add_new' => ('Add New'),
+        'add_new_item' => ('Add New Activity'),
+        'edit' => ('Edit'),
+        'edit_item' => ('Edit Activities'),
+        'new_item' => ('New Activity'),
+        'view_item' => ('View Activity'),
+        'view' => ('View'),
+        'not_found' => ('No Activities found'),
+        'not_found_in_trash' => ('No Activities found in Trash'),
+        'menu_name' => ('Activities'),
+        'parent' => ('Parent Activity'),
+        );
 
-         $customPostArgs = array(
-            'labels' => $labels,
-            'hierarchical' => true,
-            'description' => 'Activities for language learners filterable by Student class',
-            'supports' => array('title', 'editor', 'author', 'thumbnail', 'custom-fields', 'comments', 'revisions', 'page-attributes'),
-            'taxonomies' => array('classes'),
-            'public' => true,
-            'show_ui' => true,
-            'show_in_menu' => true,
-            'menu_position' => 5,
-            'menu_icon' => 'dashicons-playlist-audio',
-            'show_in_nav_menus' => true,
-            'publicly_queryable' => true,
-            'exclude_from_search' => false,
-            'has_archive' => true,
-            'query_var' => true,
-            'can_export' => true,
-            'rewrite' => true,
-            'capability_type' => 'post',
-            );
-         register_post_type('atel_activities', $customPostArgs);
-     }
+       $customPostArgs = array(
+        'labels' => $this->labels,
+        'hierarchical' => true,
+        'description' => 'Activities for language learners filterable by Student class',
+        'supports' => array('title', 'editor', 'author', 'thumbnail', 'comments', 'revisions', 'page-attributes'),
+        'taxonomies' => array('classes','activities'),
+        'public' => true,
+        'show_ui' => true,
+        'show_in_menu' => true,
+        'menu_position' => 20,
+        'menu_icon' => 'dashicons-playlist-audio',
+        'show_in_nav_menus' => true,
+        'publicly_queryable' => true,
+        'exclude_from_search' => false,
+        'has_archive' => true,
+        'query_var' => true,
+        'can_export' => true,
+        'rewrite' => true,
+        'capability_type' => 'post',
+        'has_archive' => 'true',
+        );
+
+       register_post_type('atel_activities', $customPostArgs);
+   }
+
+   /**
+    * [selectCoverImageMetaBox description]
+    * @return [type] [description]
+    */
+   public function selectCoverImageMetaBox()
+   {
+    echo 'cock and balls';
+   }
+
+   /**
+    * [selectCoverImageMetaBox description]
+    * @return [type] [description]
+    */
+   public function selectCoverSoundMetaBox()
+   {
+
+   }
+
+
+    /**
+     * Defines an array of labels to pass to the
+     * ref: https://codex.wordpress.org/Function_Reference/register_post_type.
+    **/
+    public function buildCustomPostWidgets()
+    {
+        add_meta_box( 'cover_image_meta_box', 'Add a Cover Image', 'selectCoverImageMetaBox', 'atel_activities', 'normal', 'high' );
+        add_meta_box( 'cover_sound_meta_box', 'Add a Cover Sound', 'selectCoverSoundMetaBox', 'atel_activities', 'normal', 'high' );
+    }
 
     /**
      * The 'register_post_type' function needs to be called during the WP init phase of execution.
@@ -131,5 +160,6 @@ class Atel_Post_Manager
     public function registerCustomPost()
     {
         add_action('init', array($this, 'buildCustomPost'));
+        add_action('admin_init', array($this, 'buildCustomPostWidgets'));
     }
 }
