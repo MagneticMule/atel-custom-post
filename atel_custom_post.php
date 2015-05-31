@@ -32,6 +32,9 @@
 
     function runAtelPost()
     {
+        $atelRolesManager = new Atel_Roles_Manager();
+        $atelRolesManager->changeRoleNames();
+
         $atelPostManager = new Atel_Post_Manager();
         $atelPostManager->registerCustomPost();
     }
