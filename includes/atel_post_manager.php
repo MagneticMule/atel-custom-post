@@ -1,8 +1,7 @@
 <?php
 
 
-class Atel-Post-Manager
-{
+class Atel_Post_Manager {
     /**
      * An array of labels for this post type. By default, post labels are used for non-hierarchical post types and page labels for hierarchical ones.
      * if empty, 'name' is set to value of 'label', and 'singular_name' is set to value of 'name'.
