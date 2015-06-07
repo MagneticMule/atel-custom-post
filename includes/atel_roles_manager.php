@@ -1,11 +1,11 @@
 <?php
 
-class atel_roles_manager {
+class Atelrolesmanager {
 
 	public function __construct()
 	{}
 
-	public function changeRoleNames()
+	public function atelChangeRoleNames()
 	{
 		global $wp_roles;
 		if ( ! isset( $wp_roles )) {
@@ -15,6 +15,11 @@ class atel_roles_manager {
 			$wp_roles->roles['subsciber']['name'] = 'Student';
 			$wp_roles->role_names['subsciber'] = 'Student';
 		}
+	}
+
+	public function registerRoleNames()
+	{
+		add_action('init', array($this, 'atelChangeRoleNames'));
 	}
 
 }

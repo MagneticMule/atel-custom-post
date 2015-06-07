@@ -27,17 +27,21 @@
     */
 
     // This file is part of a Wordpress plugin so don't call it directly
-    defined('ABSPATH') or die('This plugin cannot be acessed directly');
-    require_once plugin_dir_path(__FILE__).'includes/atel_post_manager.php';
-    require_once plugin_dir_path(__FILE__).'includes/atel_roles_manager.php';
+        defined('ABSPATH') or die('This plugin cannot be accessed directly you silly goose!');
+        require_once plugin_dir_path(__FILE__).'includes/atel_post_manager.php';
+        require_once plugin_dir_path(__FILE__).'includes/atel_roles_manager.php';
+        require_once plugin_dir_path(__FILE__).'includes/atel_custom_post_manager.php';
 
-    function runAtelPost()
-    {
-        $atelRolesManager = new Atel_Roles_Manager();
-        $atelRolesManager->changeRoleNames();
+        function runAtelPost()
+        {
+            $atelRolesManager = new AtelRolesManager();
+            $atelRolesManager->registerRoleNames();
 
-        $atelPostManager = new Atel_Post_Manager();
-        $atelPostManager->registerCustomPost();
-    }
-    runAtelPost();
-    //add_action('init', 'runAtelPost');
+            $atelPostManager = new AtelPostManager();
+            $atelPostManager->registerPostManager();
+
+            $atelCustomPostManager = new AtelCustomPostManager();
+            $atelCustomPostManager->registerCustomPost();
+        }
+        runAtelPost();
+

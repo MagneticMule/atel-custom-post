@@ -1,7 +1,7 @@
 <?php
 
 
-class Atel_Post_Manager {
+class AtelPostManager {
     /**
      * An array of labels for this post type. By default, post labels are used for non-hierarchical post types and page labels for hierarchical ones.
      * if empty, 'name' is set to value of 'label', and 'singular_name' is set to value of 'name'.
@@ -16,7 +16,7 @@ class Atel_Post_Manager {
      *
      * @var string
      */
-    protected $tag = 'AtelCustomPost';
+    protected $tag = 'AtelPostManager';
 
     /**
      * Friendly name used to identify the plugin.
@@ -39,21 +39,6 @@ class Atel_Post_Manager {
     {
     }
 
-    public function setLabels()
-    {
-    }
-
-    public function getLabels()
-    {
-    }
-
-    public function getAttributes()
-    {
-    }
-
-    public function setAttributes()
-    {
-    }
 
     /**
      * Our taxonomy will include classes that students
@@ -76,132 +61,53 @@ class Atel_Post_Manager {
             );
     }
 
-     /**
-      * Defines an array of labels to pass to the
-      * ref: https://codex.wordpress.org/Function_Reference/register_post_type.
-      **/
-     public function buildCustomPost()
-     {
-       $this->labels = array(
-        'name' => ('Activities'),
-        'singular_name' => ('Activity'),
-        'add_new' => ('Add New'),
-        'add_new_item' => ('Add New Activity'),
-        'edit' => ('Edit'),
-        'edit_item' => ('Edit Activities'),
-        'new_item' => ('New Activity'),
-        'view_item' => ('View Activity'),
-        'view' => ('View'),
-        'not_found' => ('No Activities found'),
-        'not_found_in_trash' => ('No Activities found in Trash'),
-        'menu_name' => ('Activities'),
-        'parent' => ('Parent Activity'),
-        );
-
-       $customPostArgs = array(
-        'labels' => $this->labels,
-        'hierarchical' => true,
-        'description' => 'Activities for language learners filterable by Student class',
-        'supports' => array('title', 'editor', 'author', 'thumbnail', 'comments', 'revisions', 'page-attributes'),
-        'taxonomies' => array('classes','activities'),
-        'public' => true,
-        'show_ui' => true,
-        'show_in_menu' => true,
-        'menu_position' => 20,
-        'menu_icon' => 'dashicons-playlist-audio',
-        'show_in_nav_menus' => true,
-        'publicly_queryable' => true,
-        'exclude_from_search' => false,
-        'has_archive' => true,
-        'query_var' => true,
-        'can_export' => true,
-        'rewrite' => array('slug' => 'activities'),
-        'capability_type' => 'post',
-        'has_archive' => 'true',
-        );
-
-       register_post_type('atel_activities', $customPostArgs);
-   }
-
-   /**
-    * [selectCoverImageMetaBox description]
-    * @return [type] [description]
-    */
-   public function selectCoverImageMetaBox()
-   {
-
-   }
-
-   /**
-    * [selectCoverImageMetaBox description]
-    * @return [type] [description]
-    */
-   public function selectCoverSoundMetaBox()
-   {
-
-   }
-
-   /**
-    * We need to reassign the first posted image to be the featured image.
-    * @return null
-    */
-   public function reassignFeaturedImage()
-   {
-
-   }
-
-   /**
-    * Remove the "Add Featured Image" meta box in the new Activity page. We still need the post thumbnail capability under the hood.
-    * @return [type] [description]
-    */
-   public function hideMetaBoxes()
-   {
-        // for some odd reason this doesn't work. Very annoying.
-        remove_meta_box( 'postimagediv', 'atel_activities', 'normal' );
-        remove_meta_box( 'handlediv', 'atel_activities', 'normal' );
-   }
-
-
     /**
-     * Defines an array of labels to pass to the
-     * ref: https://codex.wordpress.org/Function_Reference/register_post_type.
-    **/
-    function buildCustomPostWidgets()
-    {
-
-        add_meta_box( 'cover_image_meta_box', 'Add a Cover Image', 'selectCoverImageMetaBox', 'atel_activities', 'normal', 'high' );
-        add_meta_box( 'cover_sound_meta_box', 'Add a Cover Sound', 'selectCoverSoundMetaBox', 'atel_activities', 'normal', 'high' );
-    }
-
-    /**
-     * Use the first image from the post as the 'featured' image.
+     * Changes the names of the menu items for 'posts' to 'activities'.
+     * This is useful as most of the users of this system will be non-native English speakers.
+     * We can change the labels of objects to something more pedagogically relevant.
+     * @return none
      */
-    function setFeaturedImage()
-    {
-        $post_id = get_the_id();
-        $featuredImage = get_post_custom_values( 'no_featured_image', $post_id );
-        if (empty($featuredImage[0]) ){
-
-        }
-
-
+    function atelChangePostLabel() {
+        global $menu;
+        global $submenu;
+        $menu[5][0] = 'Activities';
+        $submenu['edit.php'][5][0] = 'Show All Activities';
+        $submenu['edit.php'][10][0] = 'Create a New Activity';
+        $submenu['edit.php'][16][0] = 'Tags';
+        $submenu['edit.php'][15][0] = 'Categories';
     }
 
+
+    /**
+     * Changes the labels from '* post' to '* activity'.
+     * @return none
+     */
+    function atelChangePostObject() {
+        global $wp_post_types;
+        $labels = $wp_post_types['post']->labels;
+        $labels->name = 'Activities';
+        $labels->singular_name = 'Activity';
+        $labels->add_new = 'Add a New Activity';
+        $labels->add_new_item = 'Create a New Activity';
+        $labels->edit_item = 'Edit an Activity';
+        $labels->new_item = 'Activities';
+        $labels->view_item = 'View Activities';
+        $labels->search_items = 'Search Activities';
+        $labels->not_found = 'No Activities found';
+        $labels->not_found_in_trash = 'No Activities in the Trash';
+        $labels->all_items = 'All Activities';
+        $labels->menu_name = 'Activities';
+        $labels->name_admin_bar = 'Activities';
+    }
 
 
     /**
      * The 'register_post_type' function needs to be called during the WP init phase of execution.
      * note, when using this in a class based plugin we need to define the callback class "which is always $this" via an array.
      **/
-    public function registerCustomPost()
+    public function registerPostManager()
     {
-        add_action('init', array($this, 'buildCustomPost'));
-        // add_action('admin_init', array($this, 'buildCustomPostWidgets'));
-        add_action('admin_menu', array($this,'hideMetaBoxes' ));
-
-        add_action('the_post', array($this, 'setFeaturedImage' ));
-        add_action('save_post', array($this, 'setFeaturedImage' ));
-        add_action('draft_to_publish', array($this, 'setFeaturedImage' ));
-
+        add_action('admin_menu', array($this, 'atelChangePostLabel'));
+        add_action('init', array($this, 'atelChangePostObject'));
     }
 }
