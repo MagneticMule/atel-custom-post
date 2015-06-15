@@ -33,17 +33,22 @@
         require_once plugin_dir_path(__FILE__).'includes/youlisten-custom-post-manager-loader.class.php';
         require_once plugin_dir_path(__FILE__).'includes/youlisten-custom-post-manager.class.php';
         require_once plugin_dir_path(__FILE__).'includes/youlisten-custom-roles.class.php';
+        require_once plugin_dir_path(__FILE__).'includes/youlisten-menu-customizer.class.php';
 
         function runAtelPost()
         {
-            $atelRolesManager = new AtelRolesManager();
-            $atelRolesManager->registerRoleNames();
+            $youlistenRolesManager = new YoulistenRolesManager();
+            $youlistenRolesManager->registerRoleNames();
 
             $atelPostManager = new AtelPostManager();
             $atelPostManager->registerPostManager();
 
             $atelCustomPostManager = new AtelCustomPostManager();
             $atelCustomPostManager->registerCustomPost();
+
+            $youlistenMenuCustomizer = new YoulistenMenuCustomizer();
+            $youlistenMenuCustomizer->modifyAdminMenu();
         }
+
         runAtelPost();
 

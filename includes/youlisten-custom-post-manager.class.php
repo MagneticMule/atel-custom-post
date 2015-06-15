@@ -63,7 +63,7 @@ class AtelPostManager {
      * Our taxonomy will include classes that students
      * can be part of as well as activities that students can participate in.
      */
-    public function customTaxonomy()
+    public function buildCustomTaxonomy()
     {
         register_taxonomy(
             'classes',
@@ -81,8 +81,10 @@ class AtelPostManager {
     }
 
      /**
-      * Defines an array of labels to pass to the
-      * ref: https://codex.wordpress.org/Function_Reference/register_post_type.
+      * Defines an array of labels to pass to the custom post type
+      *
+      * @see register_post_type()
+      * @see https://codex.wordpress.org/Function_Reference/register_post_type.
       **/
      public function buildCustomPost()
      {
@@ -109,8 +111,8 @@ class AtelPostManager {
             'public' => true,
             'show_ui' => true,
             'show_in_menu' => true,
-            'menu_position' => 5,
-            'menu_icon' => 'dashicons-playlist-audio',
+            'menu_position' => 1,
+            'menu_icon' => 'dashicons-admin-post',
             'show_in_nav_menus' => true,
             'publicly_queryable' => true,
             'exclude_from_search' => false,
@@ -131,8 +133,8 @@ class AtelPostManager {
      **/
     public function registerPostManager()
     {
-        $this->taxonomy =
-        add_action('admin_menu', array($this, 'atelChangePostLabel'));
-        add_action('init', array($this, 'atelChangePostObject'));
+        // $this->taxonomy =
+        add_action('init', array($this, 'buildCustomPost'));
+        add_action('init', array($this, 'buildCustomTaxonomy'));
     }
 }
