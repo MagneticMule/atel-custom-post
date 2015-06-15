@@ -26,11 +26,13 @@
         Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     */
 
-    // This file is part of a Wordpress plugin so don't call it directly
+        // This file is part of a Wordpress plugin so don't call it directly
         defined('ABSPATH') or die('This plugin cannot be accessed directly you silly goose!');
-        require_once plugin_dir_path(__FILE__).'includes/atel_post_manager.php';
-        require_once plugin_dir_path(__FILE__).'includes/atel_roles_manager.php';
-        require_once plugin_dir_path(__FILE__).'includes/atel_custom_post_manager.php';
+
+        // imports
+        require_once plugin_dir_path(__FILE__).'includes/youlisten-custom-post-manager-loader.class.php';
+        require_once plugin_dir_path(__FILE__).'includes/youlisten-custom-post-manager.class.php';
+        require_once plugin_dir_path(__FILE__).'includes/youlisten-custom-roles.class.php';
 
         function runAtelPost()
         {
