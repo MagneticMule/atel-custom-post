@@ -17,6 +17,10 @@ class YoulistenRolesManager {
 		}
 	}
 
+	/**
+	 * Entry point to class.
+	 *
+	 */
 	public function registerRoleNames()
 	{
 		add_action('init', array($this, 'youlistenChangeRoleNames'));

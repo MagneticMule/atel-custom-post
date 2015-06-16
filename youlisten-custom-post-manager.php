@@ -28,6 +28,7 @@
 
         // This file is part of a Wordpress plugin so don't call it directly
         defined('ABSPATH') or die('This plugin cannot be accessed directly you silly goose!');
+        // protected $template_dir = plugin_dir_path((__FILE__).'templates/');
 
         // imports
         require_once plugin_dir_path(__FILE__).'includes/youlisten-custom-post-manager-loader.class.php';

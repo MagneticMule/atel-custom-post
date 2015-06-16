@@ -89,8 +89,8 @@ class AtelPostManager {
      public function buildCustomPost()
      {
          $labels = array(
-            'name' => ('Activities'),
-            'singular_name' => ('Activity'),
+            'name' => __( 'Activities' ),
+            'singular_name' => __( 'Activity' ),
             'add_new' => ('Add New'),
             'add_new_item' => ('Add New Activity'),
             'edit_item' => ('Edit Activities'),
@@ -106,7 +106,7 @@ class AtelPostManager {
             'labels' => $labels,
             'hierarchical' => true,
             'description' => 'Activities for language learners filterable by Student class',
-            'supports' => array('title', 'editor', 'author', 'thumbnail', 'custom-fields', 'comments', 'revisions', 'page-attributes'),
+            'supports' => array('title', 'editor', 'author', 'thumbnail', 'revisions', 'page-attributes'),
             'taxonomies' => array('classes'),
             'public' => true,
             'show_ui' => true,
@@ -121,10 +121,23 @@ class AtelPostManager {
             'can_export' => true,
             'rewrite' => true,
             'capability_type' => 'post',
+            'rewrite' => array('slug' => 'youlisten_activities')
             );
 
-         register_post_type('atel_activities', $customPostArgs);
+         register_post_type('youlisten_activities', $customPostArgs);
      }
+
+    /**
+     * [addPostToQuery description]
+     * @param [type] $query [description]
+     */
+    function addPostToQuery($query) {
+        if( is_home() && $query->is_main_query() )
+        {
+            $query->set( 'youlisten_activities', 'page' );
+        }
+        return $query;
+    }
 
 
     /**
