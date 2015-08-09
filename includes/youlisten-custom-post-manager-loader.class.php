@@ -5,7 +5,7 @@ class AtelCustomPostManager {
   /**
    * The array of screen names that the custom widgets will appear on.
    */
-  public $screens;
+  protected $screens;
 
   /**
    * Default constructor. Initialises any member variables and sets the screen type.
@@ -23,9 +23,8 @@ class AtelCustomPostManager {
    */
   public function hideMetaBoxes()
   {
-
     remove_meta_box( 'pageparentdiv', 'youlisten_activities', 'side' );
-    // for some odd reason this doesn't work. Very annoying.
+    // for some odd reason this doesn't always work. Very annoying.
     remove_meta_box( 'postimagediv', 'youlisten_activities', 'side' );
   }
 
@@ -51,25 +50,30 @@ class AtelCustomPostManager {
    */
   public function setFeaturedImage()
   {
-    $post_id = get_the_id();
-    $featuredImage = get_post_custom_values( 'no_featured_image', $post_id );
+
+    $featuredImage = get_post_custom_values( 'no_featured_image', get_the_id() );
     if (empty($featuredImage[0]) ){
 
     }
   }
 
-
-
   /**
     *
-    * @return [type] [description]
+    * @return none
+    * @todo Separate the upload feature from select from gallery.
     */
-  public function selectImageMetaBox( $post )
+  public function selectImageMetaBox( )
   {
-    echo '<p>Select an image from the gallery or upload one of your own.</p>';
-    echo '<p><button type="button">Add a New Image</button></p>';
-
-    echo '<a title="Set featured image" href="http://youlisten.dev/wp-admin/media-upload.php?post_id=58&amp;type=image&amp;TB_iframe=1&amp;width=363&amp;height=780" id="set-post-thumbnail" class="thickbox">Set featured image</a>';
+    // does the post already have an associated image? If not, then display the option to select one.
+    if(!(has_post_thumbnail( get_the_id() ))) {
+      echo '<a href="#">Select an image from the gallery</a> or <a href="#">upload one of your own</a>.</p>';
+    }
+    // if the post does have a cover image then display a 300x300 thumbnail of it.
+    else {
+      the_post_thumbnail( 'medium'); //
+    }
+    // echo '<p><button type="button">Add a New Image</button></p>';
+    // echo '<a title="Set featured image" href="#" id="set-post-thumbnail" class="thickbox">Set featured image</a>';
   }
 
  /**
